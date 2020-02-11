@@ -15,6 +15,7 @@
             placeholder="Search by customer first name or last name">
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/invoices" class="btn btn-secondary">Clear</a>
     </form>
     <table class="table table-striped mt-3">
     <thead>
