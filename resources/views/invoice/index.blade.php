@@ -5,7 +5,18 @@
 
 
 @section('content')
-    <table class="table table-striped">
+    <form action="/invoices" method="get">
+        <div>
+            <input 
+            type="search"
+            value="{{$customerQueryStringParam ? $customerQueryStringParam : ''}}" 
+            name="customer" 
+            class="form-control" 
+            placeholder="Search by customer first name or last name">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <table class="table table-striped mt-3">
     <thead>
         <tr>
             <th>ID</th>
