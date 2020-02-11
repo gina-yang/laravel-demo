@@ -8,10 +8,29 @@ use DB;
 class InvoiceController extends Controller
 {
     public function index(){
-        $invoices = DB::table('invoices')->get();
-        // dd($invoices);
+        $invoices = DB::table('invoices')
+            ->join('customers', 'invoices.CustomerId', '=', 'customers.CustomerId')
+            ->orderBy('InvoiceDate', 'desc')
+            ->get();
+
+        // dd($invoices); // dump and die: equivalent to vardump
         return view('invoice.index', [
             'invoices' => $invoices
+        ]);
+    }
+
+    public function show($id){
+        $invoice = DB::table('invoices')->where('InvoiceId', '=', $id)->first();
+        $tracks = DB::table('invoice_items')
+            ->select('invoice_items.UnitPrice', 'tracks.Name as TrackName', 'albums.Title as AlbumTitle', 'artists.Name as ArtistName')
+            ->where('InvoiceId', '=', $id)
+            ->join('tracks', 'invoice_items.TrackId', '=', 'tracks.TrackId')
+            ->join('albums', 'tracks.AlbumId', '=', 'albums.AlbumId')
+            ->join('artists', 'albums.ArtistId', '=', 'artists.ArtistId')
+            ->get();
+        return view('invoice.show', [
+            'invoice' => $invoice,
+            'tracks' => $tracks
         ]);
     }
 }
